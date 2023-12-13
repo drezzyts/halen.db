@@ -1,0 +1,10 @@
+{
+  "INVALID_PROVIDER": "You must provide a valid database provider.",
+  "INVALID_PATH": "You must provide a valid database path.",
+  "INVALID_REPOSITORY_NAME": "You must provide a valid repository name.",
+  "INVALID_REPOSITORY_SCHEMA": "You must provide a valid repository schema.",
+  "INVALID_REPOSITORY_DATABASE": "You must provide a valid repository database.",
+  "INVALID_CREATE_DATA": "You must provide a valid data to create. Missing required keys or invalid data.",
+  "DATABASE_ALREADY_INITIALIZED": "Database already initialized.",
+  "DATABASE_NOT_INITIALIZED": "You must initialize the database before performing this operation."
+}
