@@ -1,6 +1,6 @@
 # Halendb
 
-[![npm version](https://badge.fury.io/js/halendb.svg)](https://badge.fury.io/js/halen.db)
+[![npm version](https://badge.fury.io/js/halendb.svg)](https://badge.fury.io/js/halendb)
 
 Halendb is a lightweight and flexible database package for Node.js.
 
