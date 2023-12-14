@@ -1,13 +1,13 @@
-# Halen.db
+# Halendb
 
-[![npm version](https://badge.fury.io/js/halen.db.svg)](https://badge.fury.io/js/halen.db)
+[![npm version](https://badge.fury.io/js/halendb.svg)](https://badge.fury.io/js/halen.db)
 
-Halen.db is a lightweight and flexible database package for Node.js.
+Halendb is a lightweight and flexible database package for Node.js.
 
 ## Installation
 
 ```bash
-npm install halen.db
+npm install halendb
 ```
 
 ## Usage

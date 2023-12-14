@@ -30,7 +30,7 @@ export abstract class SchemaLiteral<T extends SchemaValidatorType> {
   public type: T;
   public validator: SchemaValidator<T>;
 
-  public _default?: SchemaValidatorLiteralType<T, unknown>;
+  public _default?: SchemaValidatorLiteralType<T, unknown> | null = null;
   public _required: boolean = false;
 
   public constructor(type: T) {

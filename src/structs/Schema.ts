@@ -15,7 +15,7 @@ export class Schema<T extends SchemaObject> {
 
   private constructor(public object: T) {
     this.defaultObject = Object.entries(object)
-      .filter(([key, value]) => value._default && key !== 'id')
+      .filter(([key, value]) => value._default !== null && key !== 'id')
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value._default }), {})
 
     this.requiredKeys = Object.entries(object)
