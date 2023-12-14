@@ -1,5 +1,4 @@
 import { Database } from "./structs/Database";
-import { Repository } from "./structs/Repository";
 import { Schema } from "./structs/Schema";
 
 const database = new Database({
@@ -8,16 +7,18 @@ const database = new Database({
 })
 
 const userSchema = Schema.create({
-  id: Schema.string().required(),
-  name: Schema.string().default('unnamed')
+  id: Schema.number(),
+  data: {
+    name: Schema.string(),
+    age: Schema.number()
+  }
 })
 
-const repository = new Repository(userSchema, {
-  name: 'users',
-  path: './database/users.json',
-  database
-})
+const userRepository = database.createRepository('users', userSchema);
 
-const user = repository.create({ id: 'drezzy' }) || repository.get('drezzy');
-
-console.log(user)
+userRepository.create({ id: 1 }) // returns { id: 1 }
+userRepository.data() // returns all data from the repository;
+userRepository.get(1) // returns { id: 1 }
+userRepository.update({ id: 1, data: { name: 'John Doe', age: 18 } }) // returns true
+userRepository.delete(1) // returns true
+userRepository.delete(1) // returns false

@@ -12,7 +12,7 @@ export type SchemaValidatorType =
   | "array"
   | "object";
 
-export type SchemaValidatorLiteralType<T extends SchemaValidatorType> = T extends infer U
+export type SchemaValidatorLiteralType<T extends SchemaValidatorType, S> = T extends infer U
   ? U extends "string"
     ? string
     : U extends "number"
@@ -20,7 +20,7 @@ export type SchemaValidatorLiteralType<T extends SchemaValidatorType> = T extend
     : U extends "boolean"
     ? boolean
     : U extends "array"
-    ? Array<unknown>
+    ? Array<S>
     : U extends "object"
     ? object
     : never
@@ -30,7 +30,7 @@ export abstract class SchemaLiteral<T extends SchemaValidatorType> {
   public type: T;
   public validator: SchemaValidator<T>;
 
-  public _default?: SchemaValidatorLiteralType<T>;
+  public _default?: SchemaValidatorLiteralType<T, unknown>;
   public _required: boolean = false;
 
   public constructor(type: T) {
@@ -38,11 +38,11 @@ export abstract class SchemaLiteral<T extends SchemaValidatorType> {
     this.validator = new SchemaValidator(this.type);
   }
 
-  protected validate(value: unknown): value is SchemaValidatorLiteralType<T> {
+  protected validate(value: unknown): value is SchemaValidatorLiteralType<T, unknown> {
     return this.validator.validate(value);
   }
 
-  public default(value: SchemaValidatorLiteralType<T>): this {
+  public default(value: SchemaValidatorLiteralType<T, unknown>): this {
     this._default = value;
 
     return this;
@@ -56,19 +56,23 @@ export abstract class SchemaLiteral<T extends SchemaValidatorType> {
 }
 
 export type SchemaObject = {
-  [key: string]: SchemaLiteralsType | SchemaObject
+  [key: string]: SchemaLiteralsType | SchemaSubObject
 } & { readonly id: SchemaLiteralsType };
 
-export type SchemaLiteralsType = NumberLiteral | StringLiteral | BooleanLiteral | ArrayLiteral | ObjectLiteral;
+export type SchemaSubObject = {
+  [keyof: string]: SchemaLiteralsType | SchemaSubObject;
+}
 
-export type SchemaInferType<T extends SchemaObject> = {
+export type SchemaLiteralsType = NumberLiteral | StringLiteral | BooleanLiteral | ArrayLiteral<unknown> | ObjectLiteral;
+
+export type SchemaInferType<T extends SchemaObject | SchemaSubObject> = {
   [K in keyof T]: T[K] extends infer U
     ? U extends SchemaLiteralsType
-      ? SchemaValidatorLiteralType<U["type"]>
-      : U extends SchemaObject
+      ? U extends ArrayLiteral<infer V extends SchemaValidatorType> ? SchemaValidatorLiteralType<U["type"], SchemaValidatorLiteralType<V, unknown>> : SchemaValidatorLiteralType<U["type"], unknown>
+      : U extends SchemaSubObject
         ? SchemaInferType<U>
         : never
-    : never;
+    : never 
 };
 
 export type SchemaData = {

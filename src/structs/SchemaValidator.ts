@@ -7,10 +7,10 @@ import {
 export class SchemaValidator<T extends SchemaValidatorType> {
   public constructor(public type: T) {}
   
-  public validate<U extends SchemaValidatorLiteralType<T>>(
+  public validate<U extends SchemaValidatorLiteralType<T, unknown>>(
     value: unknown
   ): value is U {
-    switch(typeof value) {
+    switch(this.type) {
       case "string": return this.validateString(value as unknown);
       case "number": return this.validateNumber(value as unknown);
       case "boolean": return this.validateBoolean(value as unknown);

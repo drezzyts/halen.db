@@ -22,3 +22,4 @@ export function writeRepositoryContent<T extends SchemaInferType<S>, S extends S
   const content = JSON.stringify(data, null, '\t');
   writeFileSync(path, content)
 }
+

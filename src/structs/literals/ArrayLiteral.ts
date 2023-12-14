@@ -1,7 +1,7 @@
-import { SchemaLiteral, SchemaValidatorType } from "../../types/schema";
+import { SchemaLiteral, SchemaValidatorLiteralType, SchemaValidatorType } from "../../types/schema";
 import { SchemaValidator } from "../SchemaValidator";
 
-export default class ArrayLiteral extends SchemaLiteral<'array'> {
+export default class ArrayLiteral<U extends SchemaValidatorType | unknown> extends SchemaLiteral<'array'> {
   #type?: SchemaValidatorType;
   #maxItems?: number;
   #minItems?: number;
@@ -26,9 +26,12 @@ export default class ArrayLiteral extends SchemaLiteral<'array'> {
     return this;
   }
 
-  public arrayOf(type: SchemaValidatorType): this {
+  public of<T extends SchemaValidatorType>(type: T): ArrayLiteral<T> {
     this.#type = type;
-    return this;
+    const array = new ArrayLiteral<T>();
+    Object.setPrototypeOf(array, this);
+
+    return array;
   }
 
   public __validate__(value: unknown): value is unknown[] {

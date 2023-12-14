@@ -5,6 +5,7 @@
   "INVALID_REPOSITORY_SCHEMA": "You must provide a valid repository schema.",
   "INVALID_REPOSITORY_DATABASE": "You must provide a valid repository database.",
   "INVALID_CREATE_DATA": "You must provide a valid data to create. Missing required keys or invalid data.",
+  "INVALID_UPDATE_DATA": "You must provide a valid data to update. Invalid update data types.",
   "DATABASE_ALREADY_INITIALIZED": "Database already initialized.",
   "DATABASE_NOT_INITIALIZED": "You must initialize the database before performing this operation."
 }
