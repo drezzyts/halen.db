@@ -11,4 +11,4 @@ export type RepositoryFileContent<T extends SchemaInferType<S>, S extends Schema
   [id: string]: T;
 };
 
-export type RepositoryInputData<T extends SchemaInferType<S>, S extends SchemaObject> = Partial<Omit<T, 'id'>> & Pick<T, 'id'>; 
+export type RepositoryInputData<T extends SchemaInferType<S>, S extends SchemaObject> = T; 

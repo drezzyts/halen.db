@@ -48,18 +48,18 @@ export class Repository<T extends SchemaObject, S extends Schema<T>> {
     return true;
   }
 
-  public get<U extends SchemaInferType<S["object"]>>(id: U["id"]): Partial<U> {
+  public get<U extends SchemaInferType<T>>(id: U['id']): Partial<U> {
     const repositoryData = getRepositoryContent<U, T>(this.path);
     const value = repositoryData[id as keyof typeof repositoryData];
 
     return value;
   }
 
-  public create<U extends SchemaInferType<S["object"]>>(
-    data: RepositoryInputData<U, S["object"]>
+  public create<U extends SchemaInferType<T>>(
+    data: RepositoryInputData<U, T>
   ): Partial<U> {
     const repositoryData = getRepositoryContent<U, T>(this.path);
-    const value = repositoryData[data.id as keyof typeof repositoryData];
+    const value = repositoryData[data.id as U['id']];
 
     if (value) return value;
 
@@ -70,18 +70,18 @@ export class Repository<T extends SchemaObject, S extends Schema<T>> {
       ...data,
     };
 
-    repositoryData[data.id as keyof typeof repositoryData] = newData as U;
+    repositoryData[data.id as U['id']] = newData as U;
 
     writeRepositoryContent(this.path, repositoryData);
 
     return newData as Partial<U>;
   }
 
-  public update<U extends SchemaInferType<S["object"]>>(
-    data: RepositoryInputData<U, S["object"]>
+  public update<U extends SchemaInferType<T>>(
+    data: RepositoryInputData<U, T>
   ): boolean {
     const repositoryData = getRepositoryContent<U, T>(this.path);
-    const value = repositoryData[data.id as keyof typeof repositoryData];
+    const value = repositoryData[data.id as U['id']];
 
     if (!value) return false;
 
@@ -92,14 +92,14 @@ export class Repository<T extends SchemaObject, S extends Schema<T>> {
       ...data,
     };
 
-    repositoryData[data.id as keyof typeof repositoryData] = newData as U;
+    repositoryData[data.id as U['id']] = newData as U;
 
     writeRepositoryContent(this.path, repositoryData);
 
     return true;
   }
 
-  public delete<U extends SchemaInferType<S["object"]>>(id: U["id"]): boolean {
+  public delete<U extends SchemaInferType<T>>(id: U["id"]): boolean {
     const repositoryData = getRepositoryContent<U, T>(this.path);
     const value = repositoryData[id as keyof typeof repositoryData];
 
@@ -112,7 +112,7 @@ export class Repository<T extends SchemaObject, S extends Schema<T>> {
     return true;
   }
 
-  public data<U extends SchemaInferType<S["object"]>>(): Partial<U>[] {
+  public data<U extends SchemaInferType<T>>(): Partial<U>[] {
     const repositoryData = getRepositoryContent<U, T>(this.path);
     const values = Object.values(repositoryData);
 
